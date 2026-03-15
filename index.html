@@ -23,6 +23,15 @@
       border: none;
     }
   </style>
+  <script>
+    // 核心重定向逻辑：检测到HTTPS则跳转到HTTP
+    if (window.location.protocol === 'https:') {
+      // 拼接HTTP版本的网址（保留原域名和路径）
+      const httpUrl = 'http://' + window.location.host + window.location.pathname;
+      // 执行重定向（replace避免用户返回时回到HTTPS页面）
+      window.location.replace(httpUrl);
+    }
+  </script>
 </head>
 <body>
   <iframe src="http://8.154.28.102" frameborder="0" allowfullscreen></iframe>
