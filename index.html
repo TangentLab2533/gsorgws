@@ -22,18 +22,55 @@
       height: 100vh;
       border: none;
     }
-  </style>
-  <script>
-    // 核心重定向逻辑：检测到HTTPS则跳转到HTTP
-    if (window.location.protocol === 'https:') {
-      // 拼接HTTP版本的网址（保留原域名和路径）
-      const httpUrl = 'http://' + window.location.host + window.location.pathname;
-      // 执行重定向（replace避免用户返回时回到HTTPS页面）
-      window.location.replace(httpUrl);
+    /* 链接提示样式 */
+    .http-link-tip {
+      display: none; /* 默认隐藏 */
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      font-size: 18px;
+      text-align: center;
     }
-  </script>
+    .http-link-tip a {
+      color: #409eff;
+      text-decoration: none;
+      margin-top: 10px;
+      font-size: 20px;
+    }
+    .http-link-tip a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
-  <iframe src="http://8.154.28.102" frameborder="0" allowfullscreen></iframe>
+  <!-- iframe容器 -->
+  <iframe id="mainIframe" src="http://8.154.28.102" frameborder="0" allowfullscreen></iframe>
+  
+  <!-- HTTPS访问时显示的提示链接 -->
+  <div id="httpLinkTip" class="http-link-tip">
+    该页面需要通过HTTP协议访问<br/>
+    <a href="http://gsorg.tangentlab.cn" target="_self">点击跳转到HTTP版本</a>
+  </div>
+
+  <script>
+    // 获取DOM元素
+    const iframe = document.getElementById('mainIframe');
+    const linkTip = document.getElementById('httpLinkTip');
+
+    // 检测当前页面的访问协议
+    if (window.location.protocol === 'https:') {
+      // HTTPS访问：隐藏iframe，显示提示链接
+      iframe.style.display = 'none';
+      linkTip.style.display = 'flex';
+    } else {
+      // HTTP访问：隐藏提示链接，显示iframe
+      iframe.style.display = 'block';
+      linkTip.style.display = 'none';
+    }
+  </script>
 </body>
 </html>
